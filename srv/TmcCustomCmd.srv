@@ -1,0 +1,7 @@
+string instruction
+uint8 instruction_type
+uint8 motor_num
+int32 value
+---
+int32 output
+bool result
