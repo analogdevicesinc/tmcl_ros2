@@ -42,17 +42,16 @@ rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typ
 
 ############################################
 
-add_library(socket_can_wrapper SHARED
+add_library(${PROJECT_NAME}_socket_can_wrapper SHARED
   src/socket_can_wrapper.cpp)
 
-# target_link_libraries(socket_can_wrapper ${rclcpp_LIBRARIES})
-target_include_directories(socket_can_wrapper PUBLIC
+target_include_directories(${PROJECT_NAME}_socket_can_wrapper PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
   ${rclcpp_INCLUDE_DIRS}
 )
-ament_target_dependencies(socket_can_wrapper rclcpp)
-ament_export_targets(socket_can_wrapperTargets HAS_LIBRARY_TARGET)
+ament_target_dependencies(${PROJECT_NAME}_socket_can_wrapper rclcpp)
+ament_export_targets(${PROJECT_NAME}_socket_can_wrapperTargets HAS_LIBRARY_TARGET)
 
 install(
   DIRECTORY include/
@@ -60,8 +59,8 @@ install(
 )
 
 install(
-  TARGETS socket_can_wrapper
-  EXPORT socket_can_wrapperTargets
+  TARGETS ${PROJECT_NAME}_socket_can_wrapper
+  EXPORT ${PROJECT_NAME}_socket_can_wrapperTargets
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib
@@ -72,7 +71,7 @@ install(
 add_library(tmcl_interpreter SHARED
   src/tmcl_interpreter.cpp)
 
-target_link_libraries(tmcl_interpreter socket_can_wrapper)
+target_link_libraries(tmcl_interpreter ${PROJECT_NAME}_socket_can_wrapper)
 target_include_directories(tmcl_interpreter PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"

@@ -3,7 +3,7 @@
 Official ROS2 Driver for Trinamic Motor Controllers (TMC) that uses Trinamic Motion Control Language (TMCL) protocol. |
 
 # Background
-- Supported TMC boards: [TMCM-1636](https://www.trinamic.com/products/modules/details/tmcm-1636/), [TMCM-1617](https://www.trinamic.com/products/modules/details/tmcm-1617/), [TMCM-1241](https://www.trinamic.com/products/modules/details/tmcm-1241/), [TMCM-1260](https://www.trinamic.com/products/modules/details/tmcm-1260/), [TMCM-6214](https://www.trinamic.com/products/modules/details/tmcm-6214/)
+- Supported TMC boards: [TMCM-1636](https://www.analog.com/en/products/tmcm-1636.html), [TMCM-1617](https://www.analog.com/en/products/tmcm-1617.html), [TMCM-1241](https://www.analog.com/en/products/tmcm-1241.html), [TMCM-1260](https://www.analog.com/en/products/tmcm-1260.html), [TMCM-6214](https://www.analog.com/en/products/tmcm-6214.html)
 - Supported communication interface and interface driver: CAN (SocketCAN)
 - Supported ROS2 and OS distro: Humble (Ubuntu 22.04)
 - Supported platform: Intel x86 64-bit (amd64)
@@ -15,8 +15,8 @@ Official ROS2 Driver for Trinamic Motor Controllers (TMC) that uses Trinamic Mot
 # Hardware
 
 For the tested TMCM-1636 setup, the following are used:
-- 1 x [TMCM-1636](https://www.trinamic.com/products/modules/details/tmcm-1636/)
-- 1 x [QBL4208-61-04-013 BLDC motor](https://www.trinamic.com/products/drives/bldc-motors-details/qbl4208/)
+- 1 x [TMCM-1636](https://www.analog.com/en/products/tmcm-1636.html)
+- 1 x [QBL4208-61-04-013 BLDC motor](https://www.analog.com/en/products/qbl4208.html)
 - 1 x External 24V power supply
 - 1 x CAN USB Cable (w/SocketCAN support) - with 120 ohm termination resistors
 
@@ -26,7 +26,7 @@ Also the following:
 - 5-pin Motor connector (Encoder) (see _Note_ below)
 - 40 pin Molex connectors
 
-> :memo: _Note: Check Section 4 of [QBL4208-x-1k Datasheet](https://www.trinamic.com/fileadmin/assets/Products/Motors_Documents/QBL4208-x-1k_datasheet_Rev1.40.pdf) for motor wiring references._
+> :memo: _Note: Check Section 4 of [QBL4208-x-1k Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/QBL4208-x-1k_datasheet_Rev1.40.pdf) for motor wiring references._
 
 The image below shows the connection diagram of the setup (with labels):
 ![TMCM-1636 Connections](./docs/images/tmcm_1636_setup.png)
@@ -79,7 +79,7 @@ $ colcon build
 
 If it's the first time to use the set of motors for the TMC that you are using, it is required to calibrate and tune the PID settings of the motors first.
 
-Do the calibrations/tuning by downloading and using [TMCL-IDE](https://www.trinamic.com/support/software/tmcl-ide/).
+Do the calibrations/tuning by downloading and using [TMCL-IDE](https://www.analog.com/en/design-center/evaluation-hardware-and-software/motor-motion-control-software/tmcl-ide.html).
 
 ## BLDC Motors
 ### Calibrate the motors
@@ -102,7 +102,7 @@ For a run-through/tutorial of how the PI tuning is done in the TMCL-IDE via its 
 
 For a run-through/tutorial of how the calibration is done in the TMCL-IDE via its `Wizard Pool` feature, check this [link](https://www.youtube.com/watch?v=l6r63Q7Yr58o).
 
-For more information about Trinamic features on stepper motors, visit this [link](https://www.trinamic.com/technology/motor-control-technology/).
+For more information about Trinamic features on stepper motors, visit this [link](https://www.analog.com/en/product-category/motor-and-motion-control.html).
 
 > :memo: _Note: For all the calibration and tuning done, store all the parameters set from TMCL_IDE on the board's EEPROM. Do this by:_
 > - _Creating and uploading a TMCL Program, and enabling the "auto start mode" under SGP (Set Global Parameter) command from Direct Mode_
