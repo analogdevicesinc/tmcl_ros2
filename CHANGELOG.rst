@@ -2,6 +2,11 @@
 Changelog for package tmcl_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update LICENSE file
+* Contributors: Jamila Macagba
+
 1.0.1 (2023-10-10)
 ------------------
 * Removed obsolete modules and updated analog.com references in README
