@@ -2,8 +2,8 @@
 Changelog for package tmcl_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.2 (2023-10-27)
+------------------
 * Update LICENSE file
 * Contributors: Jamila Macagba
 
