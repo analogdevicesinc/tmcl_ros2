@@ -10,7 +10,7 @@
 #include "tmcl_ros2/tmcl_common.h"
 #include "std_msgs/msg/int32.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "tmcl_ros2/msg/tmc_info.hpp"
+#include "adi_tmcl/msg/tmc_info.hpp"
 
 class Motor
 {
@@ -26,7 +26,7 @@ public:
 protected:
   rclcpp::Node::SharedPtr p_node_;
   TmclInterpreter* p_tmcl_interpreter_;
-  rclcpp::Publisher<tmcl_ros2::msg::TmcInfo>::SharedPtr publisher_;
+  rclcpp::Publisher<adi_tmcl::msg::TmcInfo>::SharedPtr publisher_;
   rclcpp::TimerBase::SharedPtr publisher_timer_;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr subscription_cmd_vel_;
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr subscription_cmd_abspos_;

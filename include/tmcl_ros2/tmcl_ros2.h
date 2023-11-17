@@ -9,9 +9,9 @@
 
 #include "tmcl_ros2/tmcl_bldc_motor.h"
 #include "tmcl_ros2/tmcl_stepper_motor.h"
-#include "tmcl_ros2/srv/tmc_custom_cmd.hpp"
-#include "tmcl_ros2/srv/tmc_gap_all.hpp"
-#include "tmcl_ros2/srv/tmc_ggp_all.hpp"
+#include "adi_tmcl/srv/tmc_custom_cmd.hpp"
+#include "adi_tmcl/srv/tmc_gap_all.hpp"
+#include "adi_tmcl/srv/tmc_ggp_all.hpp"
 
 class TmclRos2
 {
@@ -37,9 +37,9 @@ private:
   std::vector<int64_t> param_gp_type_;
   std::vector<std::string> param_gp_name_;
 
-  rclcpp::Service<tmcl_ros2::srv::TmcCustomCmd>::SharedPtr tmcl_custom_cmd_service_server_;
-  rclcpp::Service<tmcl_ros2::srv::TmcGapAll>::SharedPtr tmcl_gap_service_server_;
-  rclcpp::Service<tmcl_ros2::srv::TmcGgpAll>::SharedPtr tmcl_ggp_service_server_;
+  rclcpp::Service<adi_tmcl::srv::TmcCustomCmd>::SharedPtr tmcl_custom_cmd_service_server_;
+  rclcpp::Service<adi_tmcl::srv::TmcGapAll>::SharedPtr tmcl_gap_service_server_;
+  rclcpp::Service<adi_tmcl::srv::TmcGgpAll>::SharedPtr tmcl_ggp_service_server_;
   rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr p_param_callback_handle_;
 
   uint32_t module_number_;
@@ -52,12 +52,12 @@ private:
   bool initAxisAndGlobalParameters();
   void createMotor();
   void initServiceServer();
-  void tmclCustomCmdCallback(const std::shared_ptr<tmcl_ros2::srv::TmcCustomCmd::Request> req,
-    const std::shared_ptr<tmcl_ros2::srv::TmcCustomCmd::Response> res);
-  void tmclGapAllCallback(const std::shared_ptr<tmcl_ros2::srv::TmcGapAll::Request> req,
-    const std::shared_ptr<tmcl_ros2::srv::TmcGapAll::Response> res);
-  void tmclGgpAllCallback(const std::shared_ptr<tmcl_ros2::srv::TmcGgpAll::Request> req,
-    const std::shared_ptr<tmcl_ros2::srv::TmcGgpAll::Response> res);
+  void tmclCustomCmdCallback(const std::shared_ptr<adi_tmcl::srv::TmcCustomCmd::Request> req,
+    const std::shared_ptr<adi_tmcl::srv::TmcCustomCmd::Response> res);
+  void tmclGapAllCallback(const std::shared_ptr<adi_tmcl::srv::TmcGapAll::Request> req,
+    const std::shared_ptr<adi_tmcl::srv::TmcGapAll::Response> res);
+  void tmclGgpAllCallback(const std::shared_ptr<adi_tmcl::srv::TmcGgpAll::Request> req,
+    const std::shared_ptr<adi_tmcl::srv::TmcGgpAll::Response> res);
   rcl_interfaces::msg::SetParametersResult parametersCallback(const std::vector<rclcpp::Parameter> \
     &parameters);
 

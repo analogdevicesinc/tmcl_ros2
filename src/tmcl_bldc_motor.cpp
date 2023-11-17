@@ -101,7 +101,7 @@ void BldcMotor::initPublisher()
 
   if(param_en_pub_tmc_info_)
   {
-    publisher_ = p_node_->create_publisher<tmcl_ros2::msg::TmcInfo>(param_tmc_info_topic_, 10);
+    publisher_ = p_node_->create_publisher<adi_tmcl::msg::TmcInfo>(param_tmc_info_topic_, 10);
 
     period_ms = (1000/param_pub_rate_tmc_info_);
     RCLCPP_DEBUG_STREAM(p_node_->get_logger(),"rate= " << std::to_string(param_pub_rate_tmc_info_)
@@ -123,7 +123,7 @@ void BldcMotor::pubTimerCallback()
   RCLCPP_DEBUG_STREAM(p_node_->get_logger(),this->getMotorName() << " [BldcMotor::"
     << __func__ << "]");
   int32_t val = 0;
-  auto message = tmcl_ros2::msg::TmcInfo();
+  auto message = adi_tmcl::msg::TmcInfo();
 
   message.header.stamp = p_node_->now();
   message.header.frame_id = tmc_info_frame_id_;

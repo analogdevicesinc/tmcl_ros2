@@ -1,6 +1,6 @@
-| tmcl_ros2 |
+| adi_tmcl |
 | --- |
-Official ROS2 Driver for Trinamic Motor Controllers (TMC) that uses Trinamic Motion Control Language (TMCL) protocol. |
+Official ROS2 Driver for ADI Trinamic Motor Controllers (TMC) that uses Trinamic Motion Control Language (TMCL) protocol. |
 
 # Background
 - Supported TMC boards: [TMCM-1636](https://www.analog.com/en/products/tmcm-1636.html), [TMCM-1617](https://www.analog.com/en/products/tmcm-1617.html), [TMCM-1241](https://www.analog.com/en/products/tmcm-1241.html), [TMCM-1260](https://www.analog.com/en/products/tmcm-1260.html), [TMCM-6214](https://www.analog.com/en/products/tmcm-6214.html)
@@ -53,7 +53,7 @@ In the website:
 In a terminal, do the following:
 ```bash
 $ cd ~/ros2_ws/src
-$ git clone <copied SSH o HTTPS link here> tmcl_ros2  #clones repo to "tmcl_ros2" directory name
+$ git clone <copied SSH o HTTPS link here> adi_tmcl  #clones repo to "adi_tmcl" directory name
 ```
 # Build
 
@@ -115,7 +115,7 @@ For more information about Trinamic features on stepper motors, visit this [link
 
 To proceed, first make the script executable (do this only once as this change persists even after power-off):
 ```bash
-$ cd ~/ros2_ws/src/tmcl_ros2/scripts
+$ cd ~/ros2_ws/src/adi_tmcl/scripts # or ~/ros2_ws/src/<repo directory>/scripts
 $ chmod +x CAN_init.sh
 ```
 
@@ -141,7 +141,7 @@ Where:
 
 To proceed, first make the script executable (do this only once as this change persists even after power-off):
 ```bash
-$ $ cd ~/ros2_ws/src/tmcl_ros2/scripts
+$ $ cd ~/ros2_ws/src/adi_tmcl/scripts # or ~/ros2_ws/src/<repo directory>/scripts
 $ chmod +x CAN_deinit.sh
 ```
 
@@ -166,10 +166,10 @@ $ cd ~/ros2_ws
 $ source install/setup.bash
 
 # Launch
-$ ros2 launch tmcl_ros2 tmcm_1636.launch.py
+$ ros2 launch adi_tmcl tmcm_1636.launch.py
 
 # Launch with DEBUG logs
-$ ros2 launch tmcl_ros2 tmcm_1636.launch.py log_level:=DEBUG
+$ ros2 launch adi_tmcl tmcm_1636.launch.py log_level:=DEBUG
 ```
 > :memo: _Note: This should be a different terminal from the one you used when building to avoid complex issues as mentioned in [ROS2 Source the overlay](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html#source-the-overlay)_
 # Nodes
@@ -182,7 +182,7 @@ $ ros2 launch tmcl_ros2 tmcm_1636.launch.py log_level:=DEBUG
 
 These are the default topic names, topic names can be modified as a ROS parameter.
 
-+ **/tmc_info_\<motor_num\>** (tmcl_ros2/msg/TmcInfo)
++ **/tmc_info_\<motor_num\>** (adi_tmcl/msg/TmcInfo)
     - Data containing:
       + (1) board voltage (V)
       + (2) statusflag value (only for boards with StatusFlags AP, else, value is set to 0)
@@ -205,12 +205,12 @@ These are the default topic names, topic names can be modified as a ROS paramete
 
 ### Advertised services
 
-+ **/tmcl_custom_cmd** (tmcl_ros2/srv/TmcCustomCmd)
++ **/tmcl_custom_cmd** (adi_tmcl/srv/TmcCustomCmd)
     - Executes a custom SAP, GAP, SGP and GGP commands
     - The output contains raw data (velocity = rpm, position = units) from the board. *Do not expect same unit from the publisher.*
-+ **/tmcl_gap_all** (tmcl_ros2/srv/TmcGapAll)
++ **/tmcl_gap_all** (adi_tmcl/srv/TmcGapAll)
     - Get all Axis Parameter values
-+ **/tmcl_ggp_all** (tmcl_ros2/srv/TmcGgpAll)
++ **/tmcl_ggp_all** (adi_tmcl/srv/TmcGgpAll)
     - Get all Global Parameter values
 
 ### Parameters
@@ -294,7 +294,7 @@ To proceed with the test, execute these following commands on three (3) differen
 
 | Terminal 2 | Terminal 3  | Terminal 4 |
 --- | --- | ---|
-|<pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 launch tmcl_ros2 tmcm_1636.launch.py  | <pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 topic echo /tmc_info_0 | <pre>$ cd ~/ros2_ws/src/tmcl_ros2/scripts <br>$ sudo chmod 777 fake_cmd_vel.sh <br>$ ./fake_cmd_vel.sh |
+|<pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 launch adi_tmcl tmcm_1636.launch.py  | <pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 topic echo /tmc_info_0 | <pre>$ cd ~/ros2_ws/src/adi_tmcl/scripts <br>$ sudo chmod 777 fake_cmd_vel.sh <br>$ ./fake_cmd_vel.sh |
 
 **Monitor the velocity of the first motor (watch out for velocity value at Terminal 3).**
 
@@ -316,7 +316,7 @@ To proceed with the test, execute these following commands on three (3) differen
 
 | Terminal 2 | Terminal 3  | Terminal 4|
 --- | --- | ---|
-|<pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 launch tmcl_ros2 tmcm_1636.launch.py  | <pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 topic echo /tmc_info_0 | <pre>$ cd ~/ros2_ws/src/tmcl_ros2/scripts <br>$ sudo chmod 777 fake_cmd_pos.sh <br>$ ./fake_cmd_pos.sh |
+|<pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 launch adi_tmcl tmcm_1636.launch.py  | <pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 topic echo /tmc_info_0 | <pre>$ cd ~/ros2_ws/src/adi_tmcl/scripts <br>$ sudo chmod 777 fake_cmd_pos.sh <br>$ ./fake_cmd_pos.sh |
 
 **Monitor the position of the first motor (watch out for position value at Terminal 3).**
 
@@ -337,7 +337,7 @@ To proceed with the test, execute these following commands on three (3) differen
 
 | Terminal 2 | Terminal 3  | Terminal 4|
 --- | --- | ---|
-|<pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 launch tmcl_ros2 tmcm_1636.launch.py  | <pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 topic echo /tmc_info_0 | <pre>$ cd ~/ros2_ws/src/tmcl_ros2/scripts <br>$ sudo chmod 777 fake_cmd_trq.sh <br>$ ./fake_cmd_trq.sh |
+|<pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 launch adi_tmcl tmcm_1636.launch.py  | <pre>$ cd ~/ros2_ws/ <br>$ source /opt/ros/humble/setup.bash <br>$ source install/setup.bash <br>$ ros2 topic echo /tmc_info_0 | <pre>$ cd ~/ros2_ws/src/adi_tmcl/scripts <br>$ sudo chmod 777 fake_cmd_trq.sh <br>$ ./fake_cmd_trq.sh |
 
 **Monitor the torque of the first motor (watch out for torque value at Terminal 3).**
 

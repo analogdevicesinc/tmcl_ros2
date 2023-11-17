@@ -55,19 +55,19 @@ int main(int argc, char ** argv)
 
 void graceful_shutdown()
 {
-  RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2 shutdown"),"Initiating graceful shutdown...");
+  RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2_node shutdown"),"Initiating graceful shutdown...");
   if(p_tmcl_ros2->deInit())
   {
-    RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2 shutdown"),"Successfully de-initialized TMC");
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2_node shutdown"),"Successfully de-initialized TMC");
   }
   delete p_tmcl_ros2;
   p_tmcl_ros2 = nullptr;
-  RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2 shutdown"),"Successfully shutdown...");
+  RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2_node shutdown"),"Successfully shutdown...");
   rclcpp::shutdown();
 }
 
 void signal_callback_handler(int signum)
 {
-  RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2 shutdown"),"Caught signal: " << signum << ". Terminating...");
+  RCLCPP_INFO_STREAM(rclcpp::get_logger("tmcl_ros2_node shutdown"),"Caught signal: " << signum << ". Terminating...");
   g_shutdown_signal = true;
 }

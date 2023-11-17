@@ -488,23 +488,23 @@ void TmclRos2::initServiceServer()
     node_namespace.clear();
   }
   std::string custom_cmd_srv_name = node_namespace + "/tmcl_custom_cmd";
-  tmcl_custom_cmd_service_server_ = p_node_->create_service<tmcl_ros2::srv::TmcCustomCmd>\
+  tmcl_custom_cmd_service_server_ = p_node_->create_service<adi_tmcl::srv::TmcCustomCmd>\
     (custom_cmd_srv_name, std::bind(&TmclRos2::tmclCustomCmdCallback, this, std::placeholders::_1,\
     std::placeholders::_2));
 
   std::string gap_srv_name = node_namespace + "/tmcl_gap_all";
-  tmcl_gap_service_server_ = p_node_->create_service<tmcl_ros2::srv::TmcGapAll>\
+  tmcl_gap_service_server_ = p_node_->create_service<adi_tmcl::srv::TmcGapAll>\
     (gap_srv_name, std::bind(&TmclRos2::tmclGapAllCallback, this, std::placeholders::_1, \
     std::placeholders::_2));
 
   std::string ggp_srv_name = node_namespace + "/tmcl_ggp_all";
-  tmcl_ggp_service_server_ = p_node_->create_service<tmcl_ros2::srv::TmcGgpAll>\
+  tmcl_ggp_service_server_ = p_node_->create_service<adi_tmcl::srv::TmcGgpAll>\
     (ggp_srv_name, std::bind(&TmclRos2::tmclGgpAllCallback, this, std::placeholders::_1, \
     std::placeholders::_2));
 }
 
-void TmclRos2::tmclCustomCmdCallback(const std::shared_ptr<tmcl_ros2::srv::TmcCustomCmd::Request> \
-  req, const std::shared_ptr<tmcl_ros2::srv::TmcCustomCmd::Response> res)
+void TmclRos2::tmclCustomCmdCallback(const std::shared_ptr<adi_tmcl::srv::TmcCustomCmd::Request> \
+  req, const std::shared_ptr<adi_tmcl::srv::TmcCustomCmd::Response> res)
 {
   int32_t val=0;
   uint8_t motor_num = static_cast<uint8_t>(req->motor_num);
@@ -570,8 +570,8 @@ void TmclRos2::tmclCustomCmdCallback(const std::shared_ptr<tmcl_ros2::srv::TmcCu
   }
 }
 
-void TmclRos2::tmclGapAllCallback(const std::shared_ptr<tmcl_ros2::srv::TmcGapAll::Request> req, \
-  const std::shared_ptr<tmcl_ros2::srv::TmcGapAll::Response> res)
+void TmclRos2::tmclGapAllCallback(const std::shared_ptr<adi_tmcl::srv::TmcGapAll::Request> req, \
+  const std::shared_ptr<adi_tmcl::srv::TmcGapAll::Response> res)
 {
   uint16_t total_motors = 0;
 
@@ -606,8 +606,8 @@ void TmclRos2::tmclGapAllCallback(const std::shared_ptr<tmcl_ros2::srv::TmcGapAl
   }
 }
 
-void TmclRos2::tmclGgpAllCallback(const std::shared_ptr<tmcl_ros2::srv::TmcGgpAll::Request> req, \
-  const std::shared_ptr<tmcl_ros2::srv::TmcGgpAll::Response> res)
+void TmclRos2::tmclGgpAllCallback(const std::shared_ptr<adi_tmcl::srv::TmcGgpAll::Request> req, \
+  const std::shared_ptr<adi_tmcl::srv::TmcGgpAll::Response> res)
 {
   (void)req; // unused
 
