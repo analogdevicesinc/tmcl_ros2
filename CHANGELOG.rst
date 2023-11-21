@@ -2,6 +2,16 @@
 Changelog for package tmcl_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Updated package name and TF values
+* Updated to:
+
+  - Change package name from "tmcl_ros2" to "adi_tmcl" in preparation for ROS release
+  - Change TF values (default)
+
+* Contributors: mmaralit-adi, jmacagba
+
 1.0.2 (2023-10-27)
 ------------------
 * Update LICENSE file
