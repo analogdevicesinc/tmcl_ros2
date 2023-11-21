@@ -2,8 +2,8 @@
 Changelog for package tmcl_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.0 (2023-11-21)
+------------------
 * Updated package name and TF values
 * Updated to:
 

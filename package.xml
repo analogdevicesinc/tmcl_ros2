@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>adi_tmcl</name>
-  <version>1.0.2</version>
+  <version>2.0.0</version>
   <description>The adi_tmcl ROS2 package</description>
   <maintainer email="ROS@analog.com">ROS@analog.com</maintainer>
   <license>BSD 3-Clause</license>
