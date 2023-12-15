@@ -1,6 +1,6 @@
-| adi_tmcl |
-| --- |
-Official ROS2 Driver for ADI Trinamic Motor Controllers (TMC) that uses Trinamic Motion Control Language (TMCL) protocol. |
+# adi_tmcl
+
+**adi_tmcl** (previously *tmcl_ros2*) is the official ROS2 Driver for ADI Trinamic Motor Controllers (TMC) that uses Trinamic Motion Control Language (TMCL) protocol.
 
 # Background
 - Supported TMC boards: [TMCM-1636](https://www.analog.com/en/products/tmcm-1636.html), [TMCM-1617](https://www.analog.com/en/products/tmcm-1617.html), [TMCM-1241](https://www.analog.com/en/products/tmcm-1241.html), [TMCM-1260](https://www.analog.com/en/products/tmcm-1260.html), [TMCM-6214](https://www.analog.com/en/products/tmcm-6214.html)
