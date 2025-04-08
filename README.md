@@ -62,15 +62,15 @@ Also the following:
 > :memo: _Note: Check Section 4 of [QBL4208-x-1k Datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/QBL4208-x-1k_datasheet_Rev1.40.pdf) for motor wiring references._
 
 The image below shows the connection diagram of the setup (with labels):
-![TMCM-1636 Connections](./docs/images/tmcm_1636_setup.png)
+![TMCM-1636 Connections](./doc/images/tmcm_1636_setup.png)
 
 The image below shows the actual setup used (for reference):
-![TMCM-1636 Actual Setup](./docs/images/tmcm_1636_actual_setup.png)
+![TMCM-1636 Actual Setup](./doc/images/tmcm_1636_actual_setup.png)
 
 # Software
 
 ## Software Architecture
-![Software Architecture Diagram](./docs/images/tmcl_ros2_Software_Architecture_Diagram.png)
+![Software Architecture Diagram](./doc/images/tmcl_ros2_Software_Architecture_Diagram.png)
 
 ## Software Dependencies
 Assumptions before building this package:
@@ -94,7 +94,7 @@ $ git clone <copied SSH o HTTPS link here> adi_tmcl  #clones repo to "adi_tmcl" 
 ########## [TERMINAL 1] ##########
 # Do proper exports first:
 ## $ source /opt/ros/<ROS2 Version>/setup.bash
-$ source /opt/ros/humble/setup.bash 
+$ source /opt/ros/humble/setup.bash
 
 # Resolve any dependencies
 $ cd ~/ros2_ws
@@ -309,7 +309,7 @@ These are the default topic names, topic names can be modified as a ROS paramete
 + **additional_ratio_pos** (double, default: 1.0)
     - Additional Ratio for position for general purposes (adhoc mode, added pulley or gear trains). Default value 1.0 means disabled
 + **additional_ratio_trq** (double, default: 1.0)
-    - Additional Ratio for torque for general purposes (adhoc mode). Default value 1.0 means disabled 
+    - Additional Ratio for torque for general purposes (adhoc mode). Default value 1.0 means disabled
 
 # Quick Tests
 
