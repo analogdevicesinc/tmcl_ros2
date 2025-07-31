@@ -2,6 +2,21 @@
 Changelog for package tmcl_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#9 <https://github.com/analogdevicesinc/tmcl_ros2/issues/9>`_ from villyjayt/humble
+  Variable ap_index_bit_width updates + minor updates
+* Variable ap_index_bit_width updates + minor updates
+  NOTE: This commit is still compatible with the current list of supported TMCM boards.
+  1. Adding variable ap_index_bit_width functionality
+  2. Adding support for TMCM-1690
+  3. Updating scripts
+* Merge pull request `#4 <https://github.com/analogdevicesinc/tmcl_ros2/issues/4>`_ from analogdevicesinc/read_me_supported_modules
+  Update README.md
+* Update README.md
+  Added supported modules in readME
+* Contributors: Cacar, Christian Joseph Acar, Jamila Macagba, Vtolent3
+
 2.0.3 (2024-11-13)
 ------------------
 * Fix handling of incorrect parameter type and update header files to .hpp
