@@ -88,9 +88,12 @@ bool TmclRos2::init()
   this->initGeneralParams();
 
   b_success = this->initAxisAndGlobalParameters();
-
+  
   if(b_success)
   {
+    // Acquiring the maximum value for AP Instruction Type
+    compare_val_ = this->checkApTypeMax();
+
     if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GGP,"auto start mode",motor_number, &val))
     {
       RCLCPP_DEBUG(p_node_->get_logger(),"auto start mode: 0x%02X", val);
@@ -322,10 +325,26 @@ bool TmclRos2::initAxisAndGlobalParameters()
   RCLCPP_INFO_STREAM(p_node_->get_logger(),"[TmclRos2::" <<  __func__ << "] called");
   bool b_success = false;
   rcl_interfaces::msg::ParameterDescriptor param_desc;
+  rcl_interfaces::msg::IntegerRange param_int_range;
   std::vector<int64_t> ap_type_default={};
   std::vector<std::string> ap_name_default={};
   std::vector<int64_t> gp_type_default={};
   std::vector<std::string> gp_name_default={};
+
+  //For Variable AP Index Bit Width
+  param_desc.name = general_params_[IDX_AP_INDEX_BIT_WIDTH];
+  param_desc.type = rclcpp::ParameterType::PARAMETER_INTEGER;
+  param_desc.description = "Bit width allocated to AP commands";
+  param_desc.read_only = true;
+
+  param_int_range.from_value = DEFAULT_BIT_WIDTH;
+  param_int_range.step = 1;
+  param_int_range.to_value = MAX_BIT_WIDTH;
+  param_desc.integer_range.push_back(param_int_range);
+
+  p_node_->declare_parameter(param_desc.name,DEFAULT_BIT_WIDTH,param_desc);
+  bit_width_ = p_node_->get_parameter(param_desc.name).as_int();
+  param_desc.integer_range.clear();
 
   param_desc.name = general_params_[IDX_AXIS_PARAMETERS_TYPE];
   param_desc.type = rclcpp::ParameterType::PARAMETER_INTEGER_ARRAY;
@@ -367,7 +386,6 @@ bool TmclRos2::initAxisAndGlobalParameters()
   param_desc.read_only = true;
   p_node_->declare_parameter(param_desc.name,gp_type_default,param_desc);
   param_gp_type_ = p_node_->get_parameter(param_desc.name).as_integer_array();
-
   param_desc.name = general_params_[IDX_GLOBAL_PARAMETERS_NAME];
   param_desc.type = rclcpp::ParameterType::PARAMETER_STRING_ARRAY;
   param_desc.description = "Array for Global Parameter Names";
@@ -493,65 +511,77 @@ void TmclRos2::tmclCustomCmdCallback(const std::shared_ptr<adi_tmcl::srv::TmcCus
 {
   int32_t val=0;
   uint8_t motor_num = static_cast<uint8_t>(req->motor_num);
-
+  uint8_t instruct_type = 0; 
   res->result = false;
-  if(tmcl_custom_cmd_[IDX_SAP] == req->instruction)
+  
+  // Check if the current instruction_type value is within limits based on the indicated ap_width 
+  if (req->instruction_type <= compare_val_)
   {
-    val = req->value;
-    RCLCPP_DEBUG(p_node_->get_logger(), "Setting Axis Parameter");
-    if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_SAP, req->instruction_type, motor_num, &val))
+    // Parse the value of the instruction type to split in instruct_type and motor_num
+    this->motorValParser(&instruct_type, &motor_num, req->instruction_type);
+    
+    if(tmcl_custom_cmd_[IDX_SAP] == req->instruction)
     {
-      res->output = val;
-      res->result= true;
+      val = req->value;
+      RCLCPP_DEBUG(p_node_->get_logger(), "Setting Axis Parameter");
+      if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_SAP, instruct_type, motor_num, &val))
+      {
+        res->output = val;
+        res->result= true;
+      }
+      else
+      {
+        RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Set Axis Parameter");
+      }
+    }
+    else if(tmcl_custom_cmd_[IDX_GAP] == req->instruction)
+    {
+      RCLCPP_DEBUG(p_node_->get_logger(), "Getting Axis Parameter Value");
+      if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GAP, instruct_type, motor_num, &val))
+      {
+        res->output = val;
+        res->result= true;
+      }
+      else
+      {
+        RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Get Axis Parameter");
+      }
+    }
+    else if(tmcl_custom_cmd_[IDX_SGP] == req->instruction)
+    {
+      val = req->value;
+      RCLCPP_DEBUG(p_node_->get_logger(), "Setting Global Parameter");
+      if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_SGP, instruct_type, motor_num, &val))
+      {
+        res->output = val;
+        res->result= true;
+      } 
+      else
+      {
+        RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Set Global Parameter");
+      }
+    }
+    else if(tmcl_custom_cmd_[IDX_GGP] == req->instruction)
+    {
+      RCLCPP_DEBUG(p_node_->get_logger(), "Getting Global Parameter Value");
+      if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GGP, instruct_type, motor_num, &val))
+      {
+        res->output = val;
+        res->result= true;
+      }
+      else
+      {
+        RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Get Global Parameter");
+      }
     }
     else
     {
-      RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Set Axis Parameter");
-    }
-  }
-  else if(tmcl_custom_cmd_[IDX_GAP] == req->instruction)
-  {
-    RCLCPP_DEBUG(p_node_->get_logger(), "Getting Axis Parameter Value");
-    if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GAP, req->instruction_type, motor_num, &val))
-    {
-      res->output = val;
-      res->result= true;
-    }
-    else
-    {
-      RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Get Axis Parameter");
-    }
-  }
-  else if(tmcl_custom_cmd_[IDX_SGP] == req->instruction)
-  {
-    val = req->value;
-    RCLCPP_DEBUG(p_node_->get_logger(), "Setting Global Parameter");
-    if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_SGP, req->instruction_type, motor_num, &val))
-    {
-      res->output = val;
-      res->result= true;
-    }
-    else
-    {
-      RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Set Global Parameter");
-    }
-  }
-  else if(tmcl_custom_cmd_[IDX_GGP] == req->instruction)
-  {
-    RCLCPP_DEBUG(p_node_->get_logger(), "Getting Global Parameter Value");
-    if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GGP, req->instruction_type, motor_num, &val))
-    {
-      res->output = val;
-      res->result= true;
-    }
-    else
-    {
-      RCLCPP_ERROR_STREAM(p_node_->get_logger(),"Fail to Get Global Parameter");
+      RCLCPP_WARN_STREAM(p_node_->get_logger(), req->instruction.c_str() << " is unsupported.");
     }
   }
   else
   {
-    RCLCPP_WARN_STREAM(p_node_->get_logger(), req->instruction.c_str() << " is unsupported.");
+    RCLCPP_ERROR(p_node_->get_logger(), "Instruction type is out of range of allocated bit width");
   }
 }
 
@@ -559,6 +589,8 @@ void TmclRos2::tmclGapAllCallback(const std::shared_ptr<adi_tmcl::srv::TmcGapAll
   const std::shared_ptr<adi_tmcl::srv::TmcGapAll::Response> res)
 {
   uint16_t total_motors = 0;
+  uint8_t motor_num = 0;
+  uint8_t instruct_type = 0;
 
   total_motors = module_number_ / 1000;
   res->param.resize(param_ap_name_.size());
@@ -568,10 +600,22 @@ void TmclRos2::tmclGapAllCallback(const std::shared_ptr<adi_tmcl::srv::TmcGapAll
     res->success = true;
     RCLCPP_INFO_STREAM(p_node_->get_logger(),"Getting all Axis Parameters for motor" \
       << req->motor_num);
+    
     for(uint32_t i = 0; i < param_ap_type_.size(); i++)
     {
       int32_t val=0;
-      if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GAP, param_ap_type_[i], req->motor_num, &val))
+      motor_num = static_cast<uint8_t>(req->motor_num);
+      // Parsing instruction types greater than UINT8_MAX
+      if (param_ap_type_[i] > UINT8_MAX)
+      {
+        this->motorValParser(&instruct_type, &motor_num, param_ap_type_[i]);
+      }
+      else
+      {
+        instruct_type = param_ap_type_[i];
+      }
+
+      if(p_tmcl_interpreter_->executeCmd(TMCL_CMD_GAP, instruct_type, motor_num, &val))
       {
         res->param[i].name = param_ap_name_[i];
         res->param[i].value = val;
@@ -669,3 +713,24 @@ bool TmclRos2::getRetriesExceededStatus()
 
   return b_success;
 }
+
+uint16_t TmclRos2::checkApTypeMax()
+{
+  uint16_t max_ap_type_val = 0;
+  for (int bit_count = 0; bit_width_ > bit_count; bit_count++)
+  {
+    max_ap_type_val |= 0x1 << bit_count; 
+  }
+  
+  return max_ap_type_val;
+}
+
+void TmclRos2::motorValParser(uint8_t * type, uint8_t * motor, uint16_t req_instruct_type)
+{
+  *motor |= (((req_instruct_type < 4096) ? ((0xFF00 & req_instruct_type) >> 4) : \
+    ((0xFF00 & req_instruct_type) >> 8)));
+  *type |= (0x00FF & req_instruct_type);
+}
+  
+  
+

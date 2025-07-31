@@ -31,6 +31,7 @@ private:
   bool param_adhoc_mode_;
   std::vector<int64_t> param_en_motors_;
   uint8_t param_auto_start_additional_delay_;
+  uint8_t bit_width_;
   std::vector<int64_t> param_ap_type_;
   std::vector<std::string> param_ap_name_;
   std::vector<int64_t> param_gp_type_;
@@ -45,6 +46,7 @@ private:
   uint16_t fw_major_;
   uint16_t fw_minor_;
   bool b_allow_en_motors_change_;
+  uint16_t compare_val_;
 
   void initCommInterfaceParams();
   void initGeneralParams();
@@ -59,6 +61,10 @@ private:
     const std::shared_ptr<adi_tmcl::srv::TmcGgpAll::Response> res);
   rcl_interfaces::msg::SetParametersResult parametersCallback(const std::vector<rclcpp::Parameter> \
     &parameters);
+  uint16_t checkApTypeMax();
+  void motorValParser(uint8_t * type, uint8_t * motor, uint16_t req_instruct_type);
+
+  
 
 };
 
@@ -83,6 +89,10 @@ const uint8_t EXEC_CMD_RETRIES_DEFAULT = 1;
 const uint8_t AUTO_START_ADDITIONAL_DELAY_MAX = 60;
 const uint8_t AUTO_START_ADDITIONAL_DELAY_DEFAULT = 0;
 
+// Limits for AP Index Bit Width value
+const uint8_t DEFAULT_BIT_WIDTH = 8;
+const uint8_t MAX_BIT_WIDTH = 16;
+
 /* LUT row indeces of get-able/set-able General Parameters */
 typedef enum
 {
@@ -93,6 +103,7 @@ typedef enum
   IDX_AXIS_PARAMETERS_NAME,
   IDX_GLOBAL_PARAMETERS_TYPE,
   IDX_GLOBAL_PARAMETERS_NAME,
+  IDX_AP_INDEX_BIT_WIDTH,
   TMCL_GENERAL_PARAMS_LUT_MAX          /* This should not be used */
 }tmcl_general_params_lut_t;
 
@@ -105,7 +116,9 @@ static const std::vector<std::string> general_params_ = {
   "AP_name",
   "GP_type",
   "GP_name",
+  "ap_index_bit_width",
   "MAX"         /* This should not be used */
+  
 };
 
 /* LUT row indeces of Custom Service Server Commands */
