@@ -2,8 +2,8 @@
 Changelog for package tmcl_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.0 (2025-07-31)
+------------------
 * Merge pull request `#9 <https://github.com/analogdevicesinc/tmcl_ros2/issues/9>`_ from villyjayt/humble
   Variable ap_index_bit_width updates + minor updates
 * Variable ap_index_bit_width updates + minor updates
