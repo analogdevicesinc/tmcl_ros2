@@ -27,6 +27,7 @@
     - [TMCM-1637](https://www.analog.com/en/products/tmcm-1637.html),
     - [TMCM-1638](https://www.analog.com/en/products/tmcm-1638.html),
     - [PD-1670](https://www.analog.com/en/products/pd-1670.html),
+    - [TMCM-1690 *](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/tmcm-1690-can-eval.html),
     - [TMCM-2611 *](https://www.analog.com/en/products/tmcm-2611.html),
     - [TMCM-3110](https://www.analog.com/en/products/tmcm-3110.html),
     - [TMCM-3212](https://www.analog.com/en/products/tmcm-3212.html),
